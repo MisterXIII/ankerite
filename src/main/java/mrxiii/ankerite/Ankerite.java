@@ -61,7 +61,8 @@ public class Ankerite
     @EventHandler
     public void interModComms(FMLInterModComms.IMCEvent event)
     {
-
+        
+        // Used to send recieve messages from other mods.
 
         List<FMLInterModComms.IMCMessage> list = event.getMessages();
         for (FMLInterModComms.IMCMessage m: list)

@@ -1,3 +1,6 @@
+// Credit to the TeamTwilightForest whose buildscript provided a portion of
+// the alternate version of this buildscript
+
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net/' }

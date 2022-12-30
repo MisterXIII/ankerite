@@ -1,9 +1,7 @@
 package mrxiii.Ankerite.entities;
 
 import mrxiii.Ankerite.AnkeriteMod;
-import mrxiii.Ankerite.blocks.AnkeriteBlock;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,7 +39,7 @@ public class AnkeriteBlockEntity extends BlockEntity {
 
       // Give all the entities a Regeneration effect
       List<LivingEntity> affected = level.getNearbyEntities(LivingEntity.class, target, null, ((AnkeriteBlockEntity) b).aoe );
-      affected.forEach((p) -> p.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 10)));
+      affected.forEach(p -> p.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 10)));
   }
 
 }

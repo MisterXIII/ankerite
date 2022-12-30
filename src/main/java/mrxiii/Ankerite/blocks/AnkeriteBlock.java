@@ -14,8 +14,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-// Initializes Ankerite Block which will be a block that holds a Block Entity
 public class AnkeriteBlock extends Block implements EntityBlock {
+// Initializes Ankerite Block which will be a block that holds a Block Entity
     public AnkeriteBlock(Properties p_49795_) {
         super(p_49795_);
 

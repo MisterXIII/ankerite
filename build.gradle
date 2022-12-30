@@ -1,6 +1,7 @@
 // Credit to TeamTwilightForest whose buildscript for the Twilight Forest Mod provided a portion of
 // the alternate version of this buildscript
 
+// The original buildscript had the repositories configured in settings.gradle, but now it is not needed.
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net/' }

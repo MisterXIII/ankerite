@@ -6,7 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import mrxiii.Ankerite.blocks.AnkeriteBlock;
 import mrxiii.Ankerite.entities.AnkeriteBlockEntity;
-import mrxiii.Ankerite.worldgen.Ores;
+import mrxiii.Ankerite.worldgen.OreConfigurations;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
@@ -19,18 +19,17 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.JsonCodecProvider;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -43,6 +42,8 @@ import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
 import java.util.List;
+import java.util.Map;
+
 
 @Mod(AnkeriteMod.MODID)
 public class AnkeriteMod
@@ -59,8 +60,7 @@ public class AnkeriteMod
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     // Deferred Register for Block Entities
     public static  final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPE = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
-    // Deferred Register for Biome Modifier Serializers
-    public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
+
 
     // Creates Ankerite Block
     public static final RegistryObject<Block> ANKERITE_BLOCK = BLOCKS.register("ankerite_block", () -> new AnkeriteBlock(BlockBehaviour.Properties.of(Material.STONE)));
@@ -76,10 +76,6 @@ public class AnkeriteMod
     public static final RegistryObject<Item> ANKERITE = ITEMS.register("ankerite", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)));
 
 
-    // Create ResourceLocation and ResourceKey for Ankerite Ore Generation configuration json file
-    private static final ResourceLocation ANKERITE_ORE_GEN_RL = new ResourceLocation(MODID, "ankerite_ore");
-    private static final ResourceKey<PlacedFeature> ANKERITE_ORE_GEN_KEY = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, ANKERITE_ORE_GEN_RL);
-
 
     // Create a BlockEntityType for the Ankerite Block
     // Each instance of a block entity will store information about the area of effect for the Ankerite blocks
@@ -88,6 +84,9 @@ public class AnkeriteMod
 
     public AnkeriteMod()
     {
+        // Register ourselves for server and other game events we are interested in
+        MinecraftForge.EVENT_BUS.register(this);
+
         // Get the mod event bus to so the registries can catch events to registering themselves to the game
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -97,40 +96,62 @@ public class AnkeriteMod
         // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
 
+        OreConfigurations.CONFIGURED_FEATURES.register(modEventBus);
+
         // Register the Deferred Register to the mod event bus so the block entity types get registered
         BLOCK_ENTITY_TYPE.register(modEventBus);
 
+        final DeferredRegister<Codec<? extends BiomeModifier>> serializers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
+        serializers.register(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
+        modEventBus.addListener(this::onGatherData);
+
+
+
+
+
 
         LOGGER.info("Mod registered");
     }
 
-    private void onGatherData(GatherDataEvent event)
+    public void onGatherData(GatherDataEvent event)
     {
         // Extract some basic required elements to make and read our json files
         final DataGenerator gen = event.getGenerator();
         final ExistingFileHelper helper = event.getExistingFileHelper();
         final RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.builtinCopy());
+        final ResourceKey<ConfiguredFeature<?,?>> configuredFeatureKey = OreConfigurations.ORE_ANKERITE_FEATURE.getHolder().get().unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get();
 
-        // This allows us to give a proper registry key directory
-        final ResourceKey<ConfiguredFeature<?,?>> ankeriteFeatureKey =
-                Ores.ANKERITE_ORE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get();
+        // When referring to holders, they must be referred from the Jsonops registry as it contains info not provided in the static holder and does some registry related stuff
+        final Holder<ConfiguredFeature<?,?>> configuredFeatureHolder = ops.registry(Registry.CONFIGURED_FEATURE_REGISTRY).get().getOrCreateHolderOrThrow(configuredFeatureKey);
 
-        // Need to obtain the Ankerite Feature Holder from Registry ops as static holder in Ores won't work
-        final Holder<ConfiguredFeature<?, ?>> ankeriteFeatureHolder = ops.registry(Registry.CONFIGURED_FEATURE_REGISTRY).get().getOrCreateHolderOrThrow(ankeriteFeatureKey);
+        // Information about the frequency of Ankerite veins throughout the caves
+        PlacedFeature added =  new PlacedFeature(configuredFeatureHolder, List.of(CountPlacement.of(30), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.absolute(0), VerticalAnchor.absolute(192)), BiomeFilter.biome()));
 
-        final PlacedFeature ankeriteFeature = new PlacedFeature(ankeriteFeatureHolder, List.of(CountPlacement.of(1), BiomeFilter.biome()));
+        // Ankerite resource location and resource key used by forge to make appropriate files and store them in an appropriate file directory where forge will pick it up later
+        ResourceLocation ankerite_rl = new ResourceLocation(MODID, "ore_ankerite_placed");
+        ResourceKey<PlacedFeature> ankerite_rk = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, ankerite_rl);
 
-        final HolderSet.Named<Biome> overworldTag = new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD);
+        // A data provider containing information about the information to be serialized which will be added to the data generator for generation later
+        JsonCodecProvider<PlacedFeature> provider = JsonCodecProvider.forDatapackRegistry(gen, helper, MODID, ops, Registry.PLACED_FEATURE_REGISTRY, Map.of(ankerite_rl, added));
 
-        final BiomeModifier addAnkeriteFeature =  new ForgeBiomeModifiers.AddFeaturesBiomeModifier(overworldTag,
-                HolderSet.direct(ops.registry(Registry.PLACED_FEATURE_REGISTRY).get().getOrCreateHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, ANKERITE_ORE_GEN_KEY.location()))), GenerationStep.Decoration.UNDERGROUND_ORES);
+        // A biome modifier that will be picked up by Biome Modifier serializers for adding ankerite ore into relevant biomes
+        BiomeModifier addedAnkerite = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(ops.registry(Registry.PLACED_FEATURE_REGISTRY).get().getOrCreateHolderOrThrow(ankerite_rk)),
+                GenerationStep.Decoration.UNDERGROUND_ORES);
+
+        // Resource location with information about file name info will be serialized into
+        ResourceLocation ADDED_ANKERITE = new ResourceLocation(MODID, "add_ankerite");
+        JsonCodecProvider<BiomeModifier> bprovider = JsonCodecProvider.forDatapackRegistry(gen, helper, MODID, ops, ForgeRegistries.Keys.BIOME_MODIFIERS, Map.of(ADDED_ANKERITE, addedAnkerite));
+
+
+
+        gen.addProvider(event.includeServer(), provider);
+        gen.addProvider(event.includeServer(), bprovider);
+
 
 
     }
-
 
 
 

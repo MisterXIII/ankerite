@@ -3,7 +3,6 @@ package mrxiii.Ankerite.blocks;
 import mrxiii.Ankerite.AnkeriteMod;
 import mrxiii.Ankerite.entities.AnkeriteBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.ItemStack;
 
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -13,6 +12,8 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class AnkeriteBlock extends Block implements EntityBlock {
 // Initializes Ankerite Block which will be a block that holds a Block Entity

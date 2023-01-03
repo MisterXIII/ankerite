@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 100,
+  "experience": 1.0,
+  "group": "ankerite_block_item",
+  "ingredient": {
+    "item": "ankeritemod:ankerite_ore_item"
+  },
+  "result": "ankeritemod:ankerite"
+}

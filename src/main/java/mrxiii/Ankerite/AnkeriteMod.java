@@ -2,7 +2,6 @@ package mrxiii.Ankerite;
 
 import com.google.gson.JsonElement;
 import com.mojang.logging.LogUtils;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import mrxiii.Ankerite.blocks.AnkeriteBlock;
 import mrxiii.Ankerite.entities.AnkeriteBlockEntity;
@@ -59,7 +58,7 @@ public class AnkeriteMod
     // Deferred Register for Items
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     // Deferred Register for Block Entities
-    public static  final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPE = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPE = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
 
 
     // Creates Ankerite Block
@@ -69,7 +68,7 @@ public class AnkeriteMod
 
     // Creates Ankerite Ore
     public static final RegistryObject<Block> ANKERITE_ORE = BLOCKS.register("ankerite_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE)));
-    // Creates item for tha block
+    // Creates item for the block
     public static final RegistryObject<Item> ANKERITE_ORE_ITEM = ITEMS.register("ankerite_ore_item", () -> new BlockItem(ANKERITE_ORE.get(), new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)));
 
     // Creates item Ankerite
@@ -96,13 +95,11 @@ public class AnkeriteMod
         // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
 
+        // Register the Deferred Register to the mod event bus so configured features get registered
         OreConfigurations.CONFIGURED_FEATURES.register(modEventBus);
 
         // Register the Deferred Register to the mod event bus so the block entity types get registered
         BLOCK_ENTITY_TYPE.register(modEventBus);
-
-        final DeferredRegister<Codec<? extends BiomeModifier>> serializers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
-        serializers.register(modEventBus);
 
         modEventBus.addListener(this::onGatherData);
 
@@ -145,9 +142,9 @@ public class AnkeriteMod
         JsonCodecProvider<BiomeModifier> bprovider = JsonCodecProvider.forDatapackRegistry(gen, helper, MODID, ops, ForgeRegistries.Keys.BIOME_MODIFIERS, Map.of(ADDED_ANKERITE, addedAnkerite));
 
 
-
         gen.addProvider(event.includeServer(), provider);
         gen.addProvider(event.includeServer(), bprovider);
+        gen.addProvider(event.includeServer(), new Recipes(gen));
 
 
 

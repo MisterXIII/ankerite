@@ -1,6 +1,5 @@
 package mrxiii.Ankerite.entities;
 
-import mrxiii.Ankerite.AnkeriteMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -22,7 +21,7 @@ public class AnkeriteBlockEntity extends BlockEntity {
     static TargetingConditions target = TargetingConditions.forNonCombat().ignoreLineOfSight();
 
     public AnkeriteBlockEntity(BlockPos p_155229_, BlockState p_155230_) {
-        super(AnkeriteMod.ANKERITE_BLOCK_ENTITY.get(), p_155229_, p_155230_);
+        super(BlockEntityRegister.ANKERITE_BLOCK_ENTITY.get(), p_155229_, p_155230_);
 
         // Initialize area of effect within a 6 block radius of Block Entity
         aoe =  this.getRenderBoundingBox().inflate(6, 6, 6);

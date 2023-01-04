@@ -1,0 +1,27 @@
+package mrxiii.Ankerite.items;
+
+import mrxiii.Ankerite.blocks.BlockRegister;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+import static mrxiii.Ankerite.AnkeriteMod.MODID;
+
+public class ItemRegister {
+
+    // Deferred Register for Items
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+
+    // Creates item for the block
+    public static final RegistryObject<Item> ANKERITE_BLOCK_ITEM = ITEMS.register("ankerite_block_item", () -> new BlockItem(BlockRegister.ANKERITE_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)));
+
+    // Creates item for the block
+    public static final RegistryObject<Item> ANKERITE_ORE_ITEM = ITEMS.register("ankerite_ore_item", () -> new BlockItem(BlockRegister.ANKERITE_ORE.get(), new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)));
+
+    // Creates item Ankerite
+    public static final RegistryObject<Item> ANKERITE = ITEMS.register("ankerite", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)));
+
+}

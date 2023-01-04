@@ -3,8 +3,9 @@ package mrxiii.Ankerite;
 import com.google.gson.JsonElement;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.JsonOps;
-import mrxiii.Ankerite.blocks.AnkeriteBlock;
-import mrxiii.Ankerite.entities.AnkeriteBlockEntity;
+import mrxiii.Ankerite.blocks.BlockRegister;
+import mrxiii.Ankerite.entities.BlockEntityRegister;
+import mrxiii.Ankerite.items.ItemRegister;
 import mrxiii.Ankerite.loot.LootProvider;
 import mrxiii.Ankerite.tags.TagsProvider;
 import mrxiii.Ankerite.worldgen.OreConfigurations;
@@ -17,17 +18,10 @@ import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.JsonCodecProvider;
@@ -37,9 +31,7 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
 import java.util.List;
@@ -55,34 +47,6 @@ public class AnkeriteMod
 
     // TODO: Clean up and organize Register and Registry declarations. A LOT.
 
-    // Deferred Register for Blocks
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Deferred Register for Items
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    // Deferred Register for Block Entities
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPE = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
-
-
-
-    // Creates Ankerite Block
-    public static final RegistryObject<Block> ANKERITE_BLOCK = BLOCKS.register("ankerite_block", () -> new AnkeriteBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F)));
-    // Creates item for the block
-    public static final RegistryObject<Item> ANKERITE_BLOCK_ITEM = ITEMS.register("ankerite_block_item", () -> new BlockItem(ANKERITE_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)));
-
-    // Creates Ankerite Ore
-    public static final RegistryObject<Block> ANKERITE_ORE = BLOCKS.register("ankerite_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F)));
-    // Creates item for the block
-    public static final RegistryObject<Item> ANKERITE_ORE_ITEM = ITEMS.register("ankerite_ore_item", () -> new BlockItem(ANKERITE_ORE.get(), new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)));
-
-    // Creates item Ankerite
-    public static final RegistryObject<Item> ANKERITE = ITEMS.register("ankerite", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)));
-
-
-
-    // Create a BlockEntityType for the Ankerite Block
-    // Each instance of a block entity will store information about the area of effect for the Ankerite blocks
-    // so it is easier to
-  public static final RegistryObject<BlockEntityType<AnkeriteBlockEntity>> ANKERITE_BLOCK_ENTITY = BLOCK_ENTITY_TYPE.register("ankerite_block_entity", () -> BlockEntityType.Builder.of(AnkeriteBlockEntity::new, ANKERITE_BLOCK.get()).build(null));
 
     public AnkeriteMod()
     {
@@ -94,15 +58,15 @@ public class AnkeriteMod
 
 
         // Register the Deferred Register to the mod event bus so blocks get registered
-        BLOCKS.register(modEventBus);
+        BlockRegister.BLOCKS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
-        ITEMS.register(modEventBus);
+       ItemRegister.ITEMS.register(modEventBus);
 
         // Register the Deferred Register to the mod event bus so configured features get registered
         OreConfigurations.CONFIGURED_FEATURES.register(modEventBus);
 
         // Register the Deferred Register to the mod event bus so the block entity types get registered
-        BLOCK_ENTITY_TYPE.register(modEventBus);
+        BlockEntityRegister.BLOCK_ENTITY_TYPE.register(modEventBus);
 
         modEventBus.addListener(this::onGatherData);
 

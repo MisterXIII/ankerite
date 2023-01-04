@@ -1,7 +1,7 @@
 package mrxiii.Ankerite.blocks;
 
-import mrxiii.Ankerite.AnkeriteMod;
 import mrxiii.Ankerite.entities.AnkeriteBlockEntity;
+import mrxiii.Ankerite.entities.BlockEntityRegister;
 import net.minecraft.core.BlockPos;
 
 import net.minecraft.world.level.Level;
@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 
 public class AnkeriteBlock extends Block implements EntityBlock {
 // Initializes Ankerite Block which will be a block that holds a Block Entity
@@ -37,7 +36,7 @@ public class AnkeriteBlock extends Block implements EntityBlock {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
         // Even after testing, not entirely sure when this condition would be false, but it's safer
         // not to deviate from the documentation
-        return AnkeriteMod.ANKERITE_BLOCK_ENTITY.get() == p_153214_ ? AnkeriteBlockEntity::tick: null;
+        return BlockEntityRegister.ANKERITE_BLOCK_ENTITY.get() == p_153214_ ? AnkeriteBlockEntity::tick: null;
     }
 
 }

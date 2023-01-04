@@ -26,6 +26,8 @@ public class LootProvider extends LootTableProvider {
     protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
     }
 
+
+    // Return all created Loot Tables
     @Override
     protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
         return List.of(

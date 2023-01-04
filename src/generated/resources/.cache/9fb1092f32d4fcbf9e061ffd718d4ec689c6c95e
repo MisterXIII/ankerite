@@ -1,0 +1,5 @@
+// 1.19	2023-01-03T01:42:29.3593149	Recipes
+59b16e99c0a58f82399bf639469d7752409bd888 data/ankeritemod/advancements/recipes/search/ankerite_block_item.json
+f25a3a3b1161a6451aa68bd53de4ec05a18b68c5 data/ankeritemod/advancements/recipes/search/ankerite_from_smelting_ankerite_ore_item.json
+c2fefdfe44d65e06640325201a34367bb60b9563 data/ankeritemod/recipes/ankerite_block_item.json
+d2b186fc8fa19d86f380145aad1ef321c8d30186 data/ankeritemod/recipes/ankerite_from_smelting_ankerite_ore_item.json

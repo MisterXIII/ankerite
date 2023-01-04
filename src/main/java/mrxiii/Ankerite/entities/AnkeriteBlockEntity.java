@@ -37,9 +37,15 @@ public class AnkeriteBlockEntity extends BlockEntity {
           return;
       }
 
+      AnkeriteBlockEntity block = (AnkeriteBlockEntity)b;
       // Give all the entities a Regeneration effect
-      List<LivingEntity> affected = level.getNearbyEntities(LivingEntity.class, target, null, ((AnkeriteBlockEntity) b).aoe );
-      affected.forEach(p -> p.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 10)));
+      List<LivingEntity> affected = level.getNearbyEntities(LivingEntity.class, target, null, block.aoe );
+      affected.forEach(p -> {
+          if(!p.hasEffect(MobEffects.REGENERATION) || p.getEffect(MobEffects.REGENERATION).getDuration() <= 10)
+          {
+              p.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 80));
+          }
+      });
   }
 
 }

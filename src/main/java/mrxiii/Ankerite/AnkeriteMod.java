@@ -5,6 +5,8 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.JsonOps;
 import mrxiii.Ankerite.blocks.AnkeriteBlock;
 import mrxiii.Ankerite.entities.AnkeriteBlockEntity;
+import mrxiii.Ankerite.loot.LootProvider;
+import mrxiii.Ankerite.tags.TagsProvider;
 import mrxiii.Ankerite.worldgen.OreConfigurations;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -61,13 +63,14 @@ public class AnkeriteMod
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPE = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
 
 
+
     // Creates Ankerite Block
-    public static final RegistryObject<Block> ANKERITE_BLOCK = BLOCKS.register("ankerite_block", () -> new AnkeriteBlock(BlockBehaviour.Properties.of(Material.STONE)));
+    public static final RegistryObject<Block> ANKERITE_BLOCK = BLOCKS.register("ankerite_block", () -> new AnkeriteBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F)));
     // Creates item for the block
     public static final RegistryObject<Item> ANKERITE_BLOCK_ITEM = ITEMS.register("ankerite_block_item", () -> new BlockItem(ANKERITE_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)));
 
     // Creates Ankerite Ore
-    public static final RegistryObject<Block> ANKERITE_ORE = BLOCKS.register("ankerite_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE)));
+    public static final RegistryObject<Block> ANKERITE_ORE = BLOCKS.register("ankerite_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F)));
     // Creates item for the block
     public static final RegistryObject<Item> ANKERITE_ORE_ITEM = ITEMS.register("ankerite_ore_item", () -> new BlockItem(ANKERITE_ORE.get(), new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)));
 
@@ -144,7 +147,12 @@ public class AnkeriteMod
 
         gen.addProvider(event.includeServer(), provider);
         gen.addProvider(event.includeServer(), bprovider);
+        // Register recipes serializers
         gen.addProvider(event.includeServer(), new Recipes(gen));
+        // Register loot serializers
+        gen.addProvider(event.includeServer(), new LootProvider(gen));
+        // Register Block Tags
+        gen.addProvider(event.includeServer(), new TagsProvider(gen, MODID, helper));
 
 
 

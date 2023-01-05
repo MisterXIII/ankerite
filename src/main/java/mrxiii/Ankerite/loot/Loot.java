@@ -11,6 +11,7 @@ public class Loot extends BlockLoot {
     protected void addTables() {
         // Using predefined methods to help add loot for blocks
         dropOther(BlockRegister.ANKERITE_ORE.get(), ItemRegister.ANKERITE.get());
+        dropOther(BlockRegister.DEEPSLATE_ANKERITE_ORE.get(), ItemRegister.ANKERITE.get());
         dropSelf(BlockRegister.ANKERITE_BLOCK.get());
     }
 

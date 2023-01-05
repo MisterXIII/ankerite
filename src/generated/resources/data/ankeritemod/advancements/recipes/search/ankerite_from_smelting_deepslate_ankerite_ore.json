@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_ankerite_ore_item": {
+    "has_deepslate_ankerite_ore_item": {
       "conditions": {
         "items": [
           {
             "items": [
-              "ankeritemod:ankerite_ore_item"
+              "ankeritemod:deepslate_ankerite_ore_item"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "ankeritemod:ankerite_from_smelting_ankerite_ore_item"
+        "recipe": "ankeritemod:ankerite_from_smelting_deepslate_ankerite_ore"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_ankerite_ore_item",
+      "has_deepslate_ankerite_ore_item",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "ankeritemod:ankerite_from_smelting_ankerite_ore_item"
+      "ankeritemod:ankerite_from_smelting_deepslate_ankerite_ore"
     ]
   }
 }

@@ -12,9 +12,12 @@ import static mrxiii.Ankerite.AnkeriteMod.MODID;
 public class BlockRegister {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 
-    // Creates Ankerite Block
+    // Create Ankerite Block
     public static final RegistryObject<Block> ANKERITE_BLOCK = BLOCKS.register("ankerite_block", () -> new AnkeriteBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F)));
-    // Creates Ankerite Ore
+    // Create Ankerite Ore
     public static final RegistryObject<Block> ANKERITE_ORE = BLOCKS.register("ankerite_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F)));
+
+    // Creates Deepslate Ankerite Ore
+    public static final RegistryObject<Block> DEEPSLATE_ANKERITE_ORE = BLOCKS.register("deepslate_ankerite_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F)));
 
 }

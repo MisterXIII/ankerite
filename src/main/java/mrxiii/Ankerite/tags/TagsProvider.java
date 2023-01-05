@@ -1,6 +1,6 @@
 package mrxiii.Ankerite.tags;
 
-import mrxiii.Ankerite.AnkeriteMod;
+import mrxiii.Ankerite.blocks.BlockRegister;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
@@ -16,8 +16,14 @@ public class TagsProvider extends BlockTagsProvider  {
     @Override
     protected void addTags() {
         // An Iron Level tool tag for the blocks
-        tag(BlockTags.NEEDS_IRON_TOOL).add(AnkeriteMod.ANKERITE_ORE.get(), AnkeriteMod.ANKERITE_BLOCK.get());
+        tag(BlockTags.NEEDS_IRON_TOOL).add(
+                BlockRegister.ANKERITE_ORE.get(),
+                BlockRegister.DEEPSLATE_ANKERITE_ORE.get(),
+                BlockRegister.ANKERITE_BLOCK.get());
         // A pickaxe tool for the blocks
-        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(AnkeriteMod.ANKERITE_ORE.get(), AnkeriteMod.ANKERITE_BLOCK.get());
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+                BlockRegister.ANKERITE_ORE.get(),
+                BlockRegister.DEEPSLATE_ANKERITE_ORE.get(),
+                BlockRegister.ANKERITE_BLOCK.get());
     }
 }

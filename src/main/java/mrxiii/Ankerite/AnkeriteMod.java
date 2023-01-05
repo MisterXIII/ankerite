@@ -90,7 +90,7 @@ public class AnkeriteMod
         final Holder<ConfiguredFeature<?,?>> configuredFeatureHolder = ops.registry(Registry.CONFIGURED_FEATURE_REGISTRY).get().getOrCreateHolderOrThrow(configuredFeatureKey);
 
         // Information about the frequency of Ankerite veins throughout the caves
-        PlacedFeature added =  new PlacedFeature(configuredFeatureHolder, List.of(CountPlacement.of(30), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.absolute(0), VerticalAnchor.absolute(192)), BiomeFilter.biome()));
+        PlacedFeature added =  new PlacedFeature(configuredFeatureHolder, List.of(CountPlacement.of(30), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.absolute(192)), BiomeFilter.biome()));
 
         // Ankerite resource location and resource key used by forge to make appropriate files and store them in an appropriate file directory where forge will pick it up later
         ResourceLocation ankerite_rl = new ResourceLocation(MODID, "ore_ankerite_placed");

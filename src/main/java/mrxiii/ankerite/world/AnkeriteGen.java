@@ -23,12 +23,16 @@ public class AnkeriteGen extends WorldGenMinable {
 
     public void genStandard(OreGenEvent.Post event)
     {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             int i1 = event.worldX + event.rand.nextInt(16);
-            int j1 = event.rand.nextInt(80 );
+            int j1 = event.rand.nextInt(40);
             int k1 = event.worldZ + event.rand.nextInt(16);
 
-            this.generate(event.world, event.rand, i1, j1, k1);
+            // Make Ankerite most likely to spawn at Y level 20 and less at other points
+            int chance = event.rand.nextInt(21);
+            if(Math.abs(j1 - 20) <= chance) {
+                this.generate(event.world, event.rand, i1, j1, k1);
+            }
         }
     }
 }

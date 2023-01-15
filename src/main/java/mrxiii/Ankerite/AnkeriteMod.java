@@ -45,8 +45,6 @@ public class AnkeriteMod
     // Logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    // TODO: Clean up and organize Register and Registry declarations. A LOT.
-
 
     public AnkeriteMod()
     {
@@ -67,7 +65,8 @@ public class AnkeriteMod
 
         // Register the Deferred Register to the mod event bus so the block entity types get registered
         BlockEntityRegister.BLOCK_ENTITY_TYPE.register(modEventBus);
-
+        
+        // Add data generator to Event Bus
         modEventBus.addListener(this::onGatherData);
 
 

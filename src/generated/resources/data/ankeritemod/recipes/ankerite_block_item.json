@@ -6,8 +6,9 @@
     }
   },
   "pattern": [
-    "##",
-    "##"
+    "###",
+    "###",
+    "###"
   ],
   "result": {
     "item": "ankeritemod:ankerite_block_item"

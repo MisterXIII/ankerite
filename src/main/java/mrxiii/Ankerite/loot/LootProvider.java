@@ -15,19 +15,34 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ * Handles modification to the loot table
+ *
+ * @author MisterXIII
+ */
 public class LootProvider extends LootTableProvider {
-    public LootProvider(DataGenerator p_124437_) {
-        super(p_124437_);
+    /**
+     * Creates an instance of the Loot Table Provider for this mod
+     * @param dataGenerator Data generator of the initialization
+     */
+    public LootProvider(DataGenerator dataGenerator) {
+        super(dataGenerator);
     }
 
 
-    // This method needs to be overridden so Mojang's special loot validation process doesn't run again
+    /**
+     * This method needs to be overridden so Mojang's special loot validation process doesn't run again
+     * @param map
+     * @param validationtracker
+     */
     @Override
     protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
     }
 
 
-    // Return all created Loot Tables
+    /**
+     * @return All created loot tables
+     */
     @Override
     protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
         return List.of(

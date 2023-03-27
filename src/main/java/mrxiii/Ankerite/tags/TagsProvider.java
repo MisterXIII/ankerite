@@ -7,12 +7,25 @@ import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Handles registering tags, which registers the required mining tools and their mining level
+ *
+ * @author MisterXIII
+ */
 public class TagsProvider extends BlockTagsProvider  {
-    public TagsProvider(DataGenerator p_126511_, String modId, @Nullable ExistingFileHelper existingFileHelper) {
-        super(p_126511_, modId, existingFileHelper);
+    /**
+     * Creates an instance of the Tag Provider for this mod
+     * @param dataGenerator The data generator of the initialization process
+     * @param modId Mod ID of the mod
+     * @param existingFileHelper File helper of the data generation process
+     */
+    public TagsProvider(DataGenerator dataGenerator, String modId, @Nullable ExistingFileHelper existingFileHelper) {
+        super(dataGenerator, modId, existingFileHelper);
     }
 
-    // Add Tags to blocks so the game can pick up their respective attributes
+    /**
+     * Add Tags to blocks so the game can pick up their respective attributes
+     */
     @Override
     protected void addTags() {
         // An Iron Level tool tag for the blocks

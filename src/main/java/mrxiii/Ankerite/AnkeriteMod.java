@@ -37,15 +37,28 @@ import org.slf4j.Logger;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Handles main setup, for Ankerite Mod.
+ * Adds Ankerite to the game, a block that can heal you within a 6 block radius
+ *
+ * @author MisterXIII
+ */
 @Mod(AnkeriteMod.MODID)
 public class AnkeriteMod
 {
+    /**
+     * Mod ID
+     */
     public static final String MODID = "ankeritemod";
-    // Logger
+    /**
+     * Logger
+     */
     private static final Logger LOGGER = LogUtils.getLogger();
 
 
+    /**
+     * Creates an instance of the mod
+     */
     public AnkeriteMod()
     {
         // Register ourselves for server and other game events we are interested in
@@ -77,6 +90,10 @@ public class AnkeriteMod
         LOGGER.info("Mod registered");
     }
 
+    /**
+     * Registers data generator, which creates the json files during the GenData run task
+     * @param event
+     */
     public void onGatherData(GatherDataEvent event)
     {
         // Extract some basic required elements to make and read our json files
@@ -89,7 +106,7 @@ public class AnkeriteMod
         final Holder<ConfiguredFeature<?,?>> configuredFeatureHolder = ops.registry(Registry.CONFIGURED_FEATURE_REGISTRY).get().getOrCreateHolderOrThrow(configuredFeatureKey);
 
         // Information about the frequency of Ankerite veins throughout the caves
-        PlacedFeature added =  new PlacedFeature(configuredFeatureHolder, List.of(CountPlacement.of(30), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.absolute(192)), BiomeFilter.biome()));
+        PlacedFeature added =  new PlacedFeature(configuredFeatureHolder, List.of(CountPlacement.of(5), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.absolute(104)), BiomeFilter.biome()));
 
         // Ankerite resource location and resource key used by forge to make appropriate files and store them in an appropriate file directory where forge will pick it up later
         ResourceLocation ankerite_rl = new ResourceLocation(MODID, "ore_ankerite_placed");

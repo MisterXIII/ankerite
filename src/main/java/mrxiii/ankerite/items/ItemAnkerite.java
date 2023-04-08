@@ -6,6 +6,5 @@ public class ItemAnkerite extends Item
 {
     public ItemAnkerite()
     {
-
     }
 }

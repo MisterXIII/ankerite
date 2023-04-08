@@ -9,4 +9,5 @@ import net.minecraft.item.Item;
 public class AnkeriteObjectHolder {
     public static final Block ankerite_ore = null;
     public static final Item ankerite = null;
+    public static final Block ankerite_block = null;
 }

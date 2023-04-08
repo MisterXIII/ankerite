@@ -1,5 +1,6 @@
 package mrxiii.ankerite;
 
+import mrxiii.ankerite.blocks.BlockAnkerite;
 import mrxiii.ankerite.blocks.BlockAnkeriteOre;
 import mrxiii.ankerite.entities.tileentities.TileEntityAnkerite;
 import mrxiii.ankerite.items.ItemAnkerite;
@@ -14,6 +15,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
@@ -39,6 +41,7 @@ public class Ankerite
 
         // Register ores
         GameRegistry.registerBlock(new BlockAnkeriteOre().setHardness(3.0f).setStepSound(Block.soundTypeStone).setBlockName("ankerite_ore").setCreativeTab(CreativeTabs.tabAllSearch).setBlockTextureName(MODID + ":ankerite_ore"), "ankerite_ore");
+        GameRegistry.registerBlock(new BlockAnkerite().setHardness(3.0f).setStepSound(Block.soundTypeGlass).setBlockName("ankerite_block").setCreativeTab(CreativeTabs.tabAllSearch).setBlockTextureName(MODID + ":ankerite_block"), "ankerite_block");
 
         // Register TileEntities
        GameRegistry.registerTileEntity(TileEntityAnkerite.class, "ankerite");
@@ -55,16 +58,19 @@ public class Ankerite
         AnkeriteGen debug = new AnkeriteGen();
 
         // Add smelting recipe
-        GameRegistry.addSmelting(AnkeriteObjectHolder.ankerite, new ItemStack(GameRegistry.findItem("minecraft", "quartz"), 1), 3);
+        GameRegistry.addSmelting(AnkeriteObjectHolder.ankerite, new ItemStack(Items.quartz, 1), 3);
+
+        // Add crafting recipe
+        GameRegistry.addShapelessRecipe(new ItemStack(AnkeriteObjectHolder.ankerite_block, 1), AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite);
     }
 
     @EventHandler
     public void interModComms(FMLInterModComms.IMCEvent event)
     {
-        
-        // Used to send recieve messages from other mods.
+
 
         List<FMLInterModComms.IMCMessage> list = event.getMessages();
+
         for (FMLInterModComms.IMCMessage m: list)
         {
             System.out.println(m.getStringValue());

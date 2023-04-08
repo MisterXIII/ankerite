@@ -7,9 +7,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
+import java.util.Random;
+
 public class AnkeriteGen extends WorldGenMinable {
     public AnkeriteGen() {
-        super(AnkeriteObjectHolder.ankerite_ore, 12);
+        super(AnkeriteObjectHolder.ankerite_ore, 5);
         MinecraftForge.ORE_GEN_BUS.register(this);
     }
 
@@ -25,7 +27,7 @@ public class AnkeriteGen extends WorldGenMinable {
     {
         for (int i = 0; i < 3; i++) {
             int i1 = event.worldX + event.rand.nextInt(16);
-            int j1 = event.rand.nextInt(40);
+            int j1 = event.rand.nextInt(40 );
             int k1 = event.worldZ + event.rand.nextInt(16);
 
             // Make Ankerite most likely to spawn at Y level 20 and less at other points

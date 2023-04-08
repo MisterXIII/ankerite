@@ -7,13 +7,26 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+/**
+ * The Ankerite Block class, which is the block crafted from 9 Ankerite crystals.
+ * @author MrXIII
+ */
 public class BlockAnkerite extends Block implements ITileEntityProvider {
+    /**
+     * The constructor for the Ankerite Block class.
+     */
     public BlockAnkerite() {
         super(Material.glass);
     }
 
+    /**
+     * Specifies the TileEntity that spawns into the world when the block is placed.
+     * @param world The world the block is placed in.
+     * @param i
+     * @return An instance of a tile entity.
+     */
     @Override
-    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+    public TileEntity createNewTileEntity(World world, int i) {
         return new TileEntityAnkerite();
     }
 

@@ -20,18 +20,36 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
+/**
+ * Entry point for the Ankerite mod. Adds a new ore, which can be used to create a block that heals you.
+ * @author MrXIII
+ */
 @Mod(modid = Ankerite.MODID, name = "Ankerite Mod", version = Ankerite.VERSION)
 public class Ankerite
 {
 
+    /**
+     * The proxy for the mod.
+     */
     @SidedProxy(clientSide = "mrxiii.ankerite.proxy.ClientProxy", serverSide = "mrxiii.ankerite.proxy.CommonProxy")
     public static CommonProxy proxy;
 
 
+    /**
+     * The mod ID.
+     */
     public static final String MODID = "ankerite";
+
+    /**
+     * The mod version.
+     */
     public static final String VERSION = "0.2";
 
-
+    /**
+     * The mod's pre-initialization event handler.
+     * Registers the items, blocks and TileEntities to the game.
+     * @param event
+     */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -48,6 +66,11 @@ public class Ankerite
 
     }
 
+    /**
+     * The mod's initialization event handler.
+     * Adds the smelting and crafting recipes.
+     * @param event
+     */
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
@@ -64,6 +87,11 @@ public class Ankerite
         GameRegistry.addShapelessRecipe(new ItemStack(AnkeriteObjectHolder.ankerite_block, 1), AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite, AnkeriteObjectHolder.ankerite);
     }
 
+    /**
+     * The mod's inter-mod communication event handler. Just testing the messaging system.
+     * But just use IG?
+     * @param event
+     */
     @EventHandler
     public void interModComms(FMLInterModComms.IMCEvent event)
     {

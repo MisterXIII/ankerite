@@ -15,16 +15,17 @@ import java.util.Random;
 public class BlockAnkeriteOre extends Block{
 
     /**
-     * The constructor for the Ankerite Ore class.
+     * The constructor for the Ankerite Ore class. Sets the mining level to iron.
      */
     public BlockAnkeriteOre() {
         super(Material.rock);
+        setHarvestLevel("pickaxe", 2);
     }
 
     /**
      * Specifies the item that drops when the block is broken.
      * @param i
-     * @param random A randomizer.
+     * @param random A randomizer. Not used in this method.
      * @param i1
      * @return An instance of an item.
      */
@@ -35,7 +36,7 @@ public class BlockAnkeriteOre extends Block{
 
     /**
      * Specifies the quantity of Ankerite that will drop when the block is broken.
-     * @param rand A randomizer.
+     * @param rand A randomizer. Used to determine the quantity of Ankerite that drops.
      * @return The quantity of items that drop.
      */
     @Override

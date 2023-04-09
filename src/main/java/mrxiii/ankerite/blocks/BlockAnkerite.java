@@ -13,10 +13,11 @@ import net.minecraft.world.World;
  */
 public class BlockAnkerite extends Block implements ITileEntityProvider {
     /**
-     * The constructor for the Ankerite Block class.
+     * The constructor for the Ankerite Block class. Sets the mining level to iron.
      */
     public BlockAnkerite() {
         super(Material.glass);
+        setHarvestLevel("pickaxe", 2);
     }
 
     /**

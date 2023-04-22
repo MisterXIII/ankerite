@@ -54,12 +54,11 @@ public class AnkeriteBlockEntity extends BlockEntity {
   {
       // Just in case the Game ticks the block entity with a different Block Entity object.
       // It shouldn't happen, but just in case.
-      if(!(b instanceof AnkeriteBlockEntity))
+      if(!(b instanceof AnkeriteBlockEntity block))
       {
           return;
       }
 
-      AnkeriteBlockEntity block = (AnkeriteBlockEntity)b;
       // Give all the entities a Regeneration effect
       List<LivingEntity> affected = level.getNearbyEntities(LivingEntity.class, target, null, block.aoe );
       affected.forEach(p -> {

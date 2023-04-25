@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         mavenLocal()
-
         mavenCentral()
         maven {
             name = "forge"
@@ -14,7 +13,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2.2'
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.1.1-SNAPSHOT') {
+            changing = true
+        }
     }
 
 }
@@ -22,8 +23,8 @@ buildscript {
 apply plugin: 'forge'
 
 version = "0.2"
-group= "MrXIII.ankeritemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "ankeritemod"
+group= "MrXIII.arcana" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "arcana"
 
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
@@ -36,7 +37,7 @@ dependencies {
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
 
-      
+
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env

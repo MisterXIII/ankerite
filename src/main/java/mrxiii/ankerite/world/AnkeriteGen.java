@@ -38,7 +38,7 @@ public class AnkeriteGen extends WorldGenMinable {
 
     }
 
-      /**
+    /**
      * The logic for generating Ankerite ore. Called once during the generation of each chunk.
      * At most, 3 ores can generate per chunk, and the ore is most likely to spawn at Y level 20.
      * @param event The event that is called from ORE_GEN_BUS.

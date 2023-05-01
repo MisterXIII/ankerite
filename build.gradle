@@ -1,7 +1,5 @@
 buildscript {
     repositories {
-        mavenLocal()
-
         mavenCentral()
         maven {
             name = "forge"
@@ -12,11 +10,11 @@ buildscript {
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
-
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2.2'
+                classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+                       changing = true
+                }
     }
-
 }
 
 apply plugin: 'forge'
@@ -35,7 +33,6 @@ dependencies {
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
-
       
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

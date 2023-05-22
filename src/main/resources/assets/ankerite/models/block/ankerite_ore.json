@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "ankeritemod:block/deepslate_ankerite_ore"
+    "all": "ankerite:block/ankerite_ore"
   }
 }

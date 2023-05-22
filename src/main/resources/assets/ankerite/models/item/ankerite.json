@@ -1,6 +1,6 @@
 {
   "parent" : "minecraft:item/generated",
   "textures": {
-  "layer0": "ankeritemod:item/ankerite"
+  "layer0": "ankerite:item/ankerite"
   }
 }

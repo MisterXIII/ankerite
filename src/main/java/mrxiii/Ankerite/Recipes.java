@@ -1,11 +1,12 @@
 package mrxiii.Ankerite;
 
+import com.google.common.collect.ImmutableList;
+import mrxiii.Ankerite.blocks.BlockRegister;
 import mrxiii.Ankerite.items.ItemRegister;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -19,10 +20,10 @@ import java.util.function.Consumer;
 public class Recipes extends RecipeProvider {
     /**
      * Creates an instance of the Recipe provider for the mod
-     * @param dataGenerator Data generator of the initialization process
+     * @param output Datapack output information
      */
-    public Recipes(DataGenerator dataGenerator) {
-        super(dataGenerator);
+    public Recipes(PackOutput output) {
+        super(output);
     }
 
     /**
@@ -30,13 +31,12 @@ public class Recipes extends RecipeProvider {
      * @param finishedRecipeConsumer
      */
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
+    protected void buildRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         //Ankerite smelting recipe
-        SimpleCookingRecipeBuilder.cooking(Ingredient.of(ItemRegister.ANKERITE_ORE_ITEM.get()), ItemRegister.ANKERITE.get(), 1.0F, 100, RecipeSerializer.SMELTING_RECIPE).group(getItemName(ItemRegister.ANKERITE.get())).unlockedBy(getHasName(ItemRegister.ANKERITE_ORE_ITEM.get()), has(ItemRegister.ANKERITE_ORE_ITEM.get())).save(finishedRecipeConsumer, new ResourceLocation(AnkeriteMod.MODID, getItemName(ItemRegister.ANKERITE.get())+"_from_smelting_ankerite_ore"));
-        SimpleCookingRecipeBuilder.cooking(Ingredient.of(ItemRegister.DEEPSLATE_ANKERITE_ORE_ITEM.get()), ItemRegister.ANKERITE.get(), 1.0F, 100, RecipeSerializer.SMELTING_RECIPE).group(getItemName(ItemRegister.ANKERITE.get())).unlockedBy(getHasName(ItemRegister.DEEPSLATE_ANKERITE_ORE_ITEM.get()), has(ItemRegister.DEEPSLATE_ANKERITE_ORE_ITEM.get())).save(finishedRecipeConsumer, new ResourceLocation(AnkeriteMod.MODID, getItemName(ItemRegister.ANKERITE.get())+"_from_smelting_deepslate_ankerite_ore"));
-        SimpleCookingRecipeBuilder.cooking(Ingredient.of(ItemRegister.ANKERITE.get()), Items.QUARTZ, 1.0F, 100, RecipeSerializer.SMELTING_RECIPE).group(getItemName(Items.QUARTZ)).unlockedBy(getHasName(ItemRegister.ANKERITE.get()), has(ItemRegister.ANKERITE.get())).save(finishedRecipeConsumer, new ResourceLocation(AnkeriteMod.MODID, getItemName(Items.QUARTZ) + "_from_smelting_" + getItemName(ItemRegister.ANKERITE.get())));
+        oreSmelting(finishedRecipeConsumer, ImmutableList.of(BlockRegister.ANKERITE_ORE.get(), BlockRegister.DEEPSLATE_ANKERITE_ORE.get()), RecipeCategory.MISC, ItemRegister.ANKERITE.get(), 0.7F, 200, "ankerite");
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ItemRegister.ANKERITE.get()), RecipeCategory.MISC, Items.QUARTZ, 1.0F, 200).unlockedBy("has_ankerite", has(ItemRegister.ANKERITE.get())).save(finishedRecipeConsumer);
         // Ankerite block crafting recipe
-        ShapedRecipeBuilder.shaped(ItemRegister.ANKERITE_BLOCK_ITEM.get()).define('#', ItemRegister.ANKERITE.get()).pattern("###").pattern("###").pattern("###").unlockedBy(getHasName(ItemRegister.ANKERITE.get()), has(ItemRegister.ANKERITE.get())).save(finishedRecipeConsumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ItemRegister.ANKERITE_BLOCK_ITEM.get()).define('#', ItemRegister.ANKERITE.get()).pattern("###").pattern("###").pattern("###").unlockedBy(getHasName(ItemRegister.ANKERITE.get()), has(ItemRegister.ANKERITE.get())).save(finishedRecipeConsumer);
 
     }
 }

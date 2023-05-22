@@ -25,21 +25,21 @@ public class ItemRegister {
     /**
      * Creates item for Ankerite Block
      */
-    public static final RegistryObject<Item> ANKERITE_BLOCK_ITEM = ITEMS.register("ankerite_block_item", () -> new BlockItem(BlockRegister.ANKERITE_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
+    public static final RegistryObject<Item> ANKERITE_BLOCK_ITEM = ITEMS.register("ankerite_block_item", () -> new BlockItem(BlockRegister.ANKERITE_BLOCK.get(), new Item.Properties()));
 
     /**
      * Creates item for Ankerite Ore
      */
-    public static final RegistryObject<Item> ANKERITE_ORE_ITEM = ITEMS.register("ankerite_ore_item", () -> new BlockItem(BlockRegister.ANKERITE_ORE.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
+    public static final RegistryObject<Item> ANKERITE_ORE_ITEM = ITEMS.register("ankerite_ore_item", () -> new BlockItem(BlockRegister.ANKERITE_ORE.get(), new Item.Properties()));
 
     /**
      * Creates item for Deepslate Ankerite Ore
      */
-    public static final RegistryObject<Item> DEEPSLATE_ANKERITE_ORE_ITEM =  ITEMS.register("deepslate_ankerite_ore_item", () -> new BlockItem(BlockRegister.DEEPSLATE_ANKERITE_ORE.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
+    public static final RegistryObject<Item> DEEPSLATE_ANKERITE_ORE_ITEM =  ITEMS.register("deepslate_ankerite_ore_item", () -> new BlockItem(BlockRegister.DEEPSLATE_ANKERITE_ORE.get(), new Item.Properties()));
 
     /**
      * Creates item Ankerite
      */
-    public static final RegistryObject<Item> ANKERITE = ITEMS.register("ankerite", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+    public static final RegistryObject<Item> ANKERITE = ITEMS.register("ankerite", () -> new Item(new Item.Properties()));
 
 }

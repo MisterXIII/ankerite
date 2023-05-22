@@ -1,42 +1,53 @@
 package mrxiii.Ankerite.tags;
 
 import mrxiii.Ankerite.blocks.BlockRegister;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.IntrinsicHolderTagsProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Handles registering tags, which registers the required mining tools and their mining level
- *
- * @author MisterXIII
- */
-public class TagsProvider extends BlockTagsProvider  {
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
+
+public class TagsProvider extends IntrinsicHolderTagsProvider<Block> {
+
+
     /**
-     * Creates an instance of the Tag Provider for this mod
-     * @param dataGenerator The data generator of the initialization process
-     * @param modId Mod ID of the mod
-     * @param existingFileHelper File helper of the data generation process
+     * Instance of Tags Provider for mod
+     * @param packOutput Pack Output with information about output
+     * @param completableFuture Holder Lookup Provider
+     * @param modId Mod ID
+     * @param existingFileHelper Existing File Helper
      */
-    public TagsProvider(DataGenerator dataGenerator, String modId, @Nullable ExistingFileHelper existingFileHelper) {
-        super(dataGenerator, modId, existingFileHelper);
+    public TagsProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> completableFuture, String modId, @Nullable ExistingFileHelper existingFileHelper) {
+        super(packOutput, Registries.BLOCK, completableFuture, block -> ForgeRegistries.BLOCKS.getResourceKey(block).get(), modId, existingFileHelper);
     }
 
     /**
-     * Add Tags to blocks so the game can pick up their respective attributes
+     * Adds tags to blocks
+     * @param provider Holder Lookup Provider
      */
     @Override
-    protected void addTags() {
-        // An Iron Level tool tag for the blocks
-        tag(BlockTags.NEEDS_IRON_TOOL).add(
-                BlockRegister.ANKERITE_ORE.get(),
-                BlockRegister.DEEPSLATE_ANKERITE_ORE.get(),
-                BlockRegister.ANKERITE_BLOCK.get());
-        // A pickaxe tool for the blocks
+    protected void addTags(HolderLookup.Provider provider) {
+        // Make these blocks only mineable with a pickaxe
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+                BlockRegister.ANKERITE_BLOCK.get(),
                 BlockRegister.ANKERITE_ORE.get(),
-                BlockRegister.DEEPSLATE_ANKERITE_ORE.get(),
-                BlockRegister.ANKERITE_BLOCK.get());
+                BlockRegister.DEEPSLATE_ANKERITE_ORE.get());
+
+        // Make these blocks require iron level tool or better
+        tag(BlockTags.NEEDS_IRON_TOOL).add(
+                BlockRegister.ANKERITE_BLOCK.get(),
+                BlockRegister.ANKERITE_ORE.get(),
+                BlockRegister.DEEPSLATE_ANKERITE_ORE.get());
     }
 }

@@ -1,13 +1,13 @@
 package mrxiii.Ankerite;
 
-import com.google.gson.JsonElement;
 import com.mojang.logging.LogUtils;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import mrxiii.Ankerite.blocks.BlockRegister;
 import mrxiii.Ankerite.entities.BlockEntityRegister;
 import mrxiii.Ankerite.items.ItemRegister;
+import mrxiii.Ankerite.lang.Lang;
 import mrxiii.Ankerite.loot.LootProvider;
+import mrxiii.Ankerite.model.BlockStateModel;
+import mrxiii.Ankerite.model.ItemModel;
 import mrxiii.Ankerite.tags.TagsProvider;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
@@ -15,15 +15,12 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.worldgen.BootstapContext;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -31,24 +28,20 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
-import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.JsonCodecProvider;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
@@ -139,6 +132,10 @@ public class AnkeriteMod
         gen.addProvider(event.includeServer(), (DataProvider.Factory<DatapackBuiltinEntriesProvider>) output -> new DatapackBuiltinEntriesProvider(output, holderLookup, builder, Set.of(MODID)));
         // Register Block Tags
         gen.addProvider(event.includeServer(), new TagsProvider(packOutput, holderLookup, MODID, helper));
+        gen.addProvider(event.includeServer(), new ItemModel(packOutput, MODID, helper));
+   //     gen.addProvider(event.includeServer(), new BlockModel(packOutput, MODID, helper));
+        gen.addProvider(event.includeServer(), new BlockStateModel(packOutput, MODID, helper));
+        gen.addProvider(event.includeServer(), new Lang(packOutput, MODID, "en_us"));
 
 
     }

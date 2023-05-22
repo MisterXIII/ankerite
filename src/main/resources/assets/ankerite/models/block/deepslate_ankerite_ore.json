@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "ankerite:block/deepslate_ankerite_ore"
-  }
-}
